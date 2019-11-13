@@ -1,0 +1,13 @@
+node_modules/
+public/js/compiled
+
+/target
+/checkouts
+/src/gen
+
+pom.xml
+pom.xml.asc
+*.iml
+*.jar
+*.log
+
