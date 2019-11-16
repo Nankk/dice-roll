@@ -6,10 +6,9 @@
    [reagent.core :as reagent]
    [reagent.dom.server :as rdom]
    ["puppeteer" :as ppt]
-   [cljs.core.async :as async :refer [>! <! go chan]]
+   [cljs.core.async :as async :refer [>! <! go chan timeout]]
    [async-interop.interop :refer-macros [<p!]]
    ["stream" :as stream]))
-
 
 (def root js/__dirname)
 
@@ -66,7 +65,6 @@
                                                               "--no-sandbox"
                                                               "--disable-setuid-sandbox"]})))
               page        (<p! (. browser newPage))
-              ;; _           (. page setViewport (clj->js {:width 100}))
               _           (<p! (. page goto (str "file://" root "/public/index.html")))
               elem-txt    (rdom/render-to-string [layouted-dice-hiccup dice1 dice2])
               _           (println elem-txt)
@@ -76,10 +74,11 @@
                                                (set! (. target -innerHTML) elem))) elem-txt)
               ]
           (println "Screenshot...")
+          (<! (timeout 100)) ; What a nasty workaround! ("waitForNavigation" doesn't work in this case)
           (<p! (. page screenshot (clj->js {:path (str "./public/img/" out-name)
-                                            :clip {:x 0
-                                                   :y 0
-                                                   :width 500
+                                            :clip {:x      0
+                                                   :y      0
+                                                   :width  500
                                                    :height 400}})))
           (println "Screenshot!")
           (. browser close)
