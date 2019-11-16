@@ -1,7 +1,3 @@
-;;; やはりreagentのrenderは自動再読込的な登録みたいなこともする感じなので
-;;; なんか上手くいかないみたいっすね…。
-;;; かといってjsの作法でしこしこ書いていくのも大変なのでどうにか
-;;; reagent-component -> htmlに静的に出力できないかどうか調査する。
 (ns dice-roll.core
   (:require
    ["express" :as express]
@@ -13,6 +9,7 @@
    [cljs.core.async :as async :refer [>! <! go chan]]
    [async-interop.interop :refer-macros [<p!]]
    ["stream" :as stream]))
+
 
 (def root js/__dirname)
 
@@ -30,7 +27,7 @@
     6 "six"))
 
 (defn- layouted-dice-hiccup [dice1 dice2]
-  [:div.container
+  [:div.container {:style {:width 500}}
    [:div.row
     ;; First dice
     [:div.col-sm-6
@@ -65,11 +62,11 @@
   (let [ch (chan)]
     (go (let [out-name    "example.png"
               browser     (<p! (. ppt launch (clj->js {;; :headless false
-                                                       :args ["--window-size=800,400"
+                                                       :args ["--window-size=500,400"
                                                               "--no-sandbox"
                                                               "--disable-setuid-sandbox"]})))
               page        (<p! (. browser newPage))
-              ;; _           (. page setViewport (clj->js {:height 100}))
+              ;; _           (. page setViewport (clj->js {:width 100}))
               _           (<p! (. page goto (str "file://" root "/public/index.html")))
               elem-txt    (rdom/render-to-string [layouted-dice-hiccup dice1 dice2])
               _           (println elem-txt)
@@ -82,7 +79,7 @@
           (<p! (. page screenshot (clj->js {:path (str "./public/img/" out-name)
                                             :clip {:x 0
                                                    :y 0
-                                                   :width 800
+                                                   :width 500
                                                    :height 400}})))
           (println "Screenshot!")
           (. browser close)
@@ -103,7 +100,6 @@
           (. ps pipe res)))))
 
 ;; Main ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 (defonce server (atom nil))
 
