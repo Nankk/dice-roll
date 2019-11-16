@@ -113,10 +113,16 @@
       (swap! counter inc)
       @counter)))
 
+(defn return-200 [req res]
+  (. res writeHead 200 (clj->js {:Content-Type "application/json; charset=utf-8"}))
+  (. res end (. js/JSON stringify (clj->js {:status "ok"}))))
+
 (defn ^:dev/after-load main []
   (let [app (express.)]
 
-    (. app get "/" func)
+    (. app get "/status" return-200) ; In order to keep the app active by robot access
+
+    (. app get "/roll" return-rolled-dice)
 
     (when (some? @server)
       (. @server close)
