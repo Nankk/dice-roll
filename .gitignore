@@ -1,4 +1,5 @@
 node_modules/
+private/
 resources/public/js/compiled
 
 /target

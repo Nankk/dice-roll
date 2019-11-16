@@ -1,7 +1,11 @@
 ;; shadow-cljs configuration
 {:dependencies
  [[org.clojure/test.check "0.10.0-alpha4"]
-  [binaryage/devtools "0.9.7"]]
+  [binaryage/devtools "0.9.7"]
+  [reagent "0.9.0-rc2"]
+  [org.clojure/core.async "0.4.500"]
+  [async-interop "0.1.0"]
+  ]
 
  :source-paths
  ["src"
@@ -13,7 +17,8 @@
                 :modules {:main {:init-fn dice-roll.core/main}}
                 :output-to "resources/index.js"
                 :output-dir "resources/public/js/compiled"
-                :compiler-options {:closure-warnings {:global-this :off}
+                 :compiler-options {:optimizations :simple
+                                    :closure-warnings {:global-this :off}
                                    :closure-defines {re-frame.trace.trace-enabled? true}}
                 :main dice-roll.core/main
                 }}}

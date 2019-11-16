@@ -1,0 +1,19 @@
+.container {
+    padding: 2rem;
+    max-width: initial;
+}
+
+.card-header {
+    text-align: center;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.row {
+    text-align: center;
+    margin-top: 1.5rem;
+    /* width: "100%"; */
+    /* height: "auto"; */
+}
