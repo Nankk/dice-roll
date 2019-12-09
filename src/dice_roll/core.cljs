@@ -112,7 +112,7 @@
                                                  "&nirf=true" ; Avoid suggestion interruption
                                                  )))]
           (println "Screenshot Google search result...")
-          (<! (timeout 1100)) ; Google roll animation takes a while...
+          (<! (timeout 1500)) ; Google roll animation takes a while...
           (<p! (. page screenshot (clj->js {:path (str "./public/img/" out-name)
                                             :clip {:x      150
                                                    :y      230
