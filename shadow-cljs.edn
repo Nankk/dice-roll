@@ -14,11 +14,10 @@
  :js-options {:js-package-dirs ["node_modules"]}
 
  :builds {:main {:target :node-script
-                :modules {:main {:init-fn dice-roll.core/main}}
-                :output-to "resources/index.js"
-                :output-dir "resources/public/js/compiled"
+                 :modules {:main {:init-fn dice-roll.core/main}}
+                 :output-to "resources/index.js"
+                 :output-dir "resources/public/js/compiled"
                  :compiler-options {:optimizations :simple
                                     :closure-warnings {:global-this :off}
-                                   :closure-defines {re-frame.trace.trace-enabled? true}}
-                :main dice-roll.core/main
-                }}}
+                                    :closure-defines {re-frame.trace.trace-enabled? true}}
+                 :main dice-roll.core/main}}}
